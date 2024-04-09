@@ -90,4 +90,74 @@ public class FiliereDAO {
         return searchResults;
     }
 
+    public static void addFiliere(Filiere filiere) throws SQLException {
+
+
+        try {
+            connection = ConnectionDB.getConnection();
+            String query = "INSERT INTO filiere (nom, departementId) VALUES (?, ?)";
+            statement = connection.prepareStatement(query);
+            statement.setString(1, filiere.getNom());
+            statement.setInt(2, filiere.getDepartementId());
+            statement.executeUpdate();
+        }catch (SQLException e){
+            System.out.println("############ Error adding filiere : "+e.getMessage());
+        }
+    }
+
+    public static Filiere getFiliereById(int id) throws SQLException {
+
+        Filiere filiere = null;
+
+        try {
+            connection = ConnectionDB.getConnection();
+            String query = "SELECT * FROM filiere WHERE id = ?";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                filiere = new Filiere(
+                        resultSet.getInt("id"),
+                        resultSet.getString("nom"),
+                        resultSet.getInt("departementId")
+                );
+            }
+        }catch (SQLException e){
+            System.out.println("####### Error retriving filere : " +e.getMessage());
+        }
+
+        return filiere;
+    }
+
+    // Method to update a filière
+    public static void updateFiliere(Filiere filiere) throws SQLException {
+
+        try {
+            connection = ConnectionDB.getConnection();
+            String query = "UPDATE filiere SET nom = ?, departementId = ? WHERE id = ?";
+            statement = connection.prepareStatement(query);
+            statement.setString(1, filiere.getNom());
+            statement.setInt(2, filiere.getDepartementId());
+            statement.setInt(3, filiere.getId());
+            statement.executeUpdate();
+        }catch (SQLException e ){
+            System.out.println("########## error updating filiere : "+e.getMessage());
+        }
+    }
+
+    // Method to delete a filière by its ID
+    public static void deleteFiliere(int id) throws SQLException {
+
+        try {
+            connection = ConnectionDB.getConnection();
+            String query = "DELETE FROM filiere WHERE id = ?";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        }catch (SQLException e){
+            System.out.println("######### error deleting filere : "+e.getMessage());
+        }
+    }
+
 }

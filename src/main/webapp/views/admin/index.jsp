@@ -23,10 +23,10 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/filieres">Gestion des Filieres</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/admin-filieres">Gestion des Filieres</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/departements">Gestion des Departements</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/admin-departements">Gestion des Departements</a>
                 </li>
             </ul>
         </div>

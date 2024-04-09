@@ -59,20 +59,25 @@ public class EtudiantController extends HttpServlet {
         String path = request.getRequestURI().substring(request.getContextPath().length());
         String searchQuery = request.getParameter("searchQuery");
         List<model.Etudiant> etudiants;
+
         if (searchQuery != null && !searchQuery.isEmpty()) {
+            // Search etudiants based on the search query
             etudiants = EtudiantDAO.searchEtudiant(searchQuery);
         } else {
+            // Retrieve all etudiants
             etudiants = EtudiantDAO.getAllEtudiants();
         }
+
         request.setAttribute("etudiants", etudiants);
 
-        if (path.startsWith("/admin")) {
-            request.setAttribute("isAdmin", true);
-        } else {
-            request.setAttribute("isAdmin", false);
-        }
+        // Determine if the user is an admin
+        boolean isAdmin = path.startsWith("/admin");
+        request.setAttribute("isAdmin", isAdmin);
+
+        // Forward the request to the listeEtudiant.jsp view
         request.getRequestDispatcher("/views/etudiant/listeEtudiant.jsp").forward(request, response);
     }
+
 
     private void insertEtudiant(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
