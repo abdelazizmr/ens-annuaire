@@ -17,7 +17,6 @@ public class ConnectionDB {
 
             // Establish the database connection
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            System.out.println("Connection with database established successfully!");
         } catch (ClassNotFoundException e) {
             System.out.println("Error loading MySQL JDBC driver: " + e.getMessage());
         } catch (SQLException e) {

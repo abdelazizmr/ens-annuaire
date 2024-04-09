@@ -77,7 +77,7 @@
                 <td><%= etudiant.getDepartementNom(etudiant.getDepartementId()) %></td>
                 <% if ((boolean)request.getAttribute("isAdmin")) { %>
                 <td class="d-flex">
-                    <a href="${pageContext.request.contextPath}/edit/<%= etudiant.getCne() %>" class="btn btn-primary me-2">Edit</a>
+                    <a href="${pageContext.request.contextPath}/editEtudiant/<%= etudiant.getCne() %>" class="btn btn-primary me-2">Edit</a>
                     <a href="${pageContext.request.contextPath}/deleteEtudiant/<%= etudiant.getCne() %>" class="btn btn-danger">Delete</a>
                 </td>
                 <% } %>

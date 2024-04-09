@@ -35,7 +35,6 @@ public class DepartementDAO {
             System.out.println("Error while fetching list of departments: " + e.getMessage());
         }
 
-        System.out.println("Departement => "+departements);
         return departements;
     }
 

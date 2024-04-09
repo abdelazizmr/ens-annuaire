@@ -83,10 +83,7 @@ public class EtudiantDAO {
     }
 
     public static void addEtudiant(Etudiant etudiant) throws SQLException {
-        PreparedStatement statement = null;
 
-
-            // Get database connection
             connection = ConnectionDB.getConnection();
 
             // Prepare SQL statement
@@ -122,5 +119,59 @@ public class EtudiantDAO {
             st.executeUpdate();
 
     }
+
+    public static Etudiant getEtudiantByCne(int id) throws SQLException {
+
+        Etudiant etudiant = null;
+
+        try {
+            connection = ConnectionDB.getConnection();
+            String query = "SELECT * FROM etudiant WHERE cne = ?";
+            st = connection.prepareStatement(query);
+            st.setInt(1, id);
+            resultSet = st.executeQuery();
+
+            if (resultSet.next()) {
+                // Retrieve etudiant details from ResultSet
+                int cne = resultSet.getInt("cne");
+                String nom = resultSet.getString("nom");
+                String prenom = resultSet.getString("prenom");
+                String telephone = resultSet.getString("telephone");
+                int filiereId = resultSet.getInt("filiereId");
+                int departementId = resultSet.getInt("departementId");
+
+                // Create the etudiant object
+                etudiant = new Etudiant(cne, nom, prenom, telephone, filiereId, departementId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return etudiant;
+    }
+
+
+
+
+    public static void updateEtudiant(Etudiant etudiant) throws SQLException {
+        try {
+            connection = ConnectionDB.getConnection();
+            String query = "UPDATE etudiant SET nom = ?, prenom = ?, telephone = ?, filiereId = ?, departementId = ? WHERE cne = ?";
+            st = connection.prepareStatement(query);
+            st.setString(1, etudiant.getNom());
+            st.setString(2, etudiant.getPrenom());
+            st.setString(3, etudiant.getTelephone());
+            st.setInt(4, etudiant.getFiliereId());
+            st.setInt(5, etudiant.getDepartementId());
+            st.setInt(6, etudiant.getCne());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error updating : "+e.getMessage());;
+        }
+    }
+
+
+
 
 }

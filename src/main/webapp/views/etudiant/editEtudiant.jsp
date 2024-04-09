@@ -3,39 +3,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Student</title>
+    <title>Edit Student</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <%@ include file="/views/admin/index.jsp" %>
 <div class="container my-3">
-    <h2 class="text-center mb-3">Add Student</h2>
-    <form id="addStudentForm" action="${pageContext.request.contextPath}/insertEtudiant" method="post">
+    <h2 class="text-center mb-3">Edit Student</h2>
+    <form id="editStudentForm" action="${pageContext.request.contextPath}/updateEtudiant" method="post">
         <div class="form-group">
             <label for="cne">CNE:</label>
-            <input type="text" id="cne" name="cne" class="form-control" required>
+            <input type="text" id="cne" name="cne" class="form-control" value="${etudiant.cne}" readonly>
         </div>
 
         <div class="form-group">
             <label for="nom">Nom:</label>
-            <input type="text" id="nom" name="nom" class="form-control" required>
+            <input type="text" id="nom" name="nom" class="form-control" value="${etudiant.nom}" required>
         </div>
 
         <div class="form-group">
             <label for="prenom">Prenom:</label>
-            <input type="text" id="prenom" name="prenom" class="form-control" required>
+            <input type="text" id="prenom" name="prenom" class="form-control" value="${etudiant.prenom}" required>
         </div>
 
         <div class="form-group">
             <label for="telephone">Telephone:</label>
-            <input type="text" id="telephone" name="telephone" class="form-control" required>
+            <input type="text" id="telephone" name="telephone" class="form-control" value="${etudiant.telephone}" required>
         </div>
 
         <div class="form-group">
             <label for="filiereId">Filiere:</label>
             <select id="filiereId" name="filiereId" class="form-control">
                 <c:forEach var="filiere" items="${filieres}">
-                    <option value="${filiere.id}">${filiere.nom}</option>
+                    <option value="${filiere.id}" <c:if test="${filiere.id eq etudiant.filiereId}">selected</c:if>>${filiere.nom}</option>
                 </c:forEach>
             </select>
         </div>
@@ -44,12 +44,12 @@
             <label for="departementId">Departement:</label>
             <select id="departementId" name="departementId" class="form-control">
                 <c:forEach var="departement" items="${departements}">
-                    <option value="${departement.id}">${departement.nom}</option>
+                    <option value="${departement.id}" <c:if test="${departement.id eq etudiant.departementId}">selected</c:if>>${departement.nom}</option>
                 </c:forEach>
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Add Student</button>
+        <button type="submit" class="btn btn-primary">Update Student</button>
     </form>
 </div>
 
@@ -76,12 +76,11 @@
 
     // Function to validate numeric inputs
     function validateNumericInputs() {
-        let cne = document.getElementById('cne').value;
         let telephone = document.getElementById('telephone').value;
 
-        // Check if cne and telephone are numeric
-        if (isNaN(cne) || isNaN(telephone)) {
-            alert('CNE, Telephone must be numeric.');
+        // Check if telephone is numeric
+        if (isNaN(telephone)) {
+            alert('Telephone must be numeric.');
             return false;
         }
         return true;
@@ -97,12 +96,10 @@
         }
 
         return true;
-
-
     }
 
     // Attach validation functions to form submission
-    document.getElementById('addStudentForm').onsubmit = function() {
+    document.getElementById('editStudentForm').onsubmit = function() {
         return validateNumericInputs() && validateStringInputs() && validateSelectes();
     };
 
