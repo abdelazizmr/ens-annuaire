@@ -13,7 +13,6 @@ public class indexController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Forward the request to the appropriate JSP file based on the path
         String path = request.getRequestURI().substring(request.getContextPath().length());
-        System.out.println("path : "+path);
         if (path.startsWith("/admin")) {
             request.getRequestDispatcher("/views/admin/index.jsp").forward(request, response);
         } else if (path.startsWith("/user")) {

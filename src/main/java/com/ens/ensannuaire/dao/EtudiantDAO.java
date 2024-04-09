@@ -12,6 +12,8 @@ public class EtudiantDAO {
     private static Statement statement;
     private static ResultSet resultSet;
 
+    private static PreparedStatement st;
+
     // Method to retrieve all étudiants from the database
     public static List<Etudiant> getAllEtudiants() {
         List<Etudiant> etudiants = new ArrayList<>();
@@ -80,7 +82,45 @@ public class EtudiantDAO {
         return searchResults;
     }
 
+    public static void addEtudiant(Etudiant etudiant) throws SQLException {
+        PreparedStatement statement = null;
 
 
+            // Get database connection
+            connection = ConnectionDB.getConnection();
+
+            // Prepare SQL statement
+            String sql = "INSERT INTO Etudiant (cne, nom, prenom, telephone, filiereId, departementId) VALUES (?, ?, ?, ?, ?, ?)";
+            st = connection.prepareStatement(sql);
+
+            // Set parameters
+            st.setInt(1, etudiant.getCne());
+            st.setString(2, etudiant.getNom());
+            st.setString(3, etudiant.getPrenom());
+            st.setString(4, etudiant.getTelephone());
+            st.setInt(5, etudiant.getFiliereId());
+            st.setInt(6, etudiant.getDepartementId());
+
+            // Execute the statement
+            st.executeUpdate();
+
+    }
+
+    public static void deleteEtudiant(int cne) throws SQLException {
+
+            // Get database connection
+            connection = ConnectionDB.getConnection();
+
+            // Prepare SQL statement
+            String sql = "DELETE FROM Etudiant WHERE cne = ?";
+            st = connection.prepareStatement(sql);
+
+            // Set parameter values
+            st.setInt(1, cne);
+
+            // Execute the delete statement
+            st.executeUpdate();
+
+    }
 
 }
