@@ -79,6 +79,90 @@ public class DepartementDAO {
         return searchResults;
     }
 
+    public static Departement getDepartementById(int id) throws SQLException {
+        Departement departement = null;
+        try {
+            connection = ConnectionDB.getConnection();
+            String sql = "SELECT * FROM departement WHERE id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String nom = resultSet.getString("nom");
+                departement = new Departement(id, nom);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error while fetching departement by ID: " + e.getMessage());
+        } finally {
+            closeResources();
+        }
+        return departement;
+    }
+
+    public static void addDepartement(Departement departement) throws SQLException {
+        try {
+            connection = ConnectionDB.getConnection();
+            String query = "INSERT INTO departement (nom) VALUES (?)";
+            statement = connection.prepareStatement(query);
+            statement.setString(1, departement.getNom());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error while adding departement: " + e.getMessage());
+        } finally {
+            closeResources();
+        }
+    }
+
+    public static void updateDepartement(Departement departement) throws SQLException {
+        try {
+            connection = ConnectionDB.getConnection();
+            String query = "UPDATE departement SET nom = ? WHERE id = ?";
+            statement = connection.prepareStatement(query);
+            statement.setString(1, departement.getNom());
+            statement.setInt(2, departement.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error while updating departement: " + e.getMessage());
+        } finally {
+            closeResources();
+        }
+    }
+
+    public static void deleteDepartement(int id) throws SQLException {
+        try {
+            connection = ConnectionDB.getConnection();
+            String query = "DELETE FROM departement WHERE id = ?";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error while deleting departement: " + e.getMessage());
+        } finally {
+            closeResources();
+        }
+    }
+
+    private static void closeResources() {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error while closing resources: " + e.getMessage());
+        }
+    }
+
 
 
 
